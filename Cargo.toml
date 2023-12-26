@@ -1,8 +1,13 @@
 [package]
-name = "gmail-rs"
+name = "gmail"
 edition = "2021"
 version = "0.12.0"
 readme = "README.md"
+homepage = "https://github.com/libninjacom/gmail-rs"
+repository = "https://github.com/libninjacom/gmail-rs"
+documentation = "https://docs.rs/gmail"
+license = "MIT"
+description = "A fluent library for the Gmail API, based on OpenAPI spec"
 
 [dependencies]
 futures = "0.3.25"
