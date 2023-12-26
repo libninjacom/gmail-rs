@@ -5,7 +5,7 @@
         <img src="https://img.shields.io/github/stars/libninjacom/gmail-rs.svg?style=flat-square" alt="Stars" />
     </a>
     <a href="https://github.com/libninjacom/gmail-rs/actions">
-        <img src="https://img.shields.io/github/actions/workflow/libninjacom/gmail-rs/ci.yaml?style=flat-square" alt="Build Status" />
+        <img src="https://img.shields.io/github/actions/workflow/status/libninjacom/gmail-rs/ci.yaml?style=flat-square" alt="Build Status" />
     </a>
     
 <a href="https://crates.io/crates/gmail">
