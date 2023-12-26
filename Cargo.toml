@@ -1,0 +1,23 @@
+[package]
+name = "gmail-rs"
+edition = "2021"
+version = "0.12.0"
+readme = "README.md"
+
+[dependencies]
+futures = "0.3.25"
+httpclient = "0.20.2"
+httpclient_oauth2 = "0.1.3"
+serde_json = "1.0.81"
+
+[dependencies.chrono]
+version = "0.4.26"
+features = ["serde"]
+
+[dependencies.serde]
+version = "1.0.137"
+features = ["derive"]
+
+[dev-dependencies.tokio]
+version = "1.18.2"
+features = ["full"]
