@@ -1,5 +1,4 @@
 use serde::{Serialize, Deserialize};
-use super::MessagePart;
 ///A single MIME message part.
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct MessagePart {

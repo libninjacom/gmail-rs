@@ -9,6 +9,9 @@ documentation = "https://docs.rs/gmail"
 license = "MIT"
 description = "A fluent library for the Gmail API, based on OpenAPI spec"
 
+[lib]
+doctest = false
+
 [dependencies]
 futures = "0.3.25"
 httpclient = "0.20.2"

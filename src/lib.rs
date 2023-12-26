@@ -1103,4 +1103,13 @@ impl GmailAuth {
             middleware: Arc::new(mw),
         }
     }
+
+    pub fn from_env() -> Self {
+        let access = std::env::var("GMAIL_ACCESS_TOKEN").unwrap();
+        let refresh = std::env::var("GMAIL_REFRESH_TOKEN").unwrap();
+        let mw = shared_oauth2_flow().bearer_middleware(access, refresh);
+        Self::OAuth2 {
+            middleware: Arc::new(mw),
+        }
+    }
 }
