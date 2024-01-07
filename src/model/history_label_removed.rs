@@ -4,10 +4,10 @@ use super::Message;
 pub struct HistoryLabelRemoved {
     ///Label IDs removed from the message.
     #[serde(rename = "labelIds")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub label_ids: Option<Vec<String>>,
     ///An email message.
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub message: Option<Message>,
 }
 impl std::fmt::Display for HistoryLabelRemoved {

@@ -2,20 +2,20 @@
 name = "gmail"
 edition = "2021"
 version = "0.12.0"
-readme = "README.md"
-homepage = "https://github.com/libninjacom/gmail-rs"
-repository = "https://github.com/libninjacom/gmail-rs"
-documentation = "https://docs.rs/gmail"
-license = "MIT"
 description = "A fluent library for the Gmail API, based on OpenAPI spec"
+homepage = "https://github.com/libninjacom/gmail-rs"
+documentation = "https://docs.rs/gmail"
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/libninjacom/gmail-rs"
 
-[lib]
-doctest = false
+[workspace]
+members = [".", "transform"]
 
 [dependencies]
 futures = "0.3.25"
-httpclient = "0.20.2"
-httpclient_oauth2 = "0.1.3"
+httpclient = "0.21.0"
+httpclient_oauth2 = "0.2.0"
 serde_json = "1.0.81"
 
 [dependencies.chrono]
@@ -29,3 +29,7 @@ features = ["derive"]
 [dev-dependencies.tokio]
 version = "1.18.2"
 features = ["full"]
+
+[lib]
+doctest = false
+required-features = []

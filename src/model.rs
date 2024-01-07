@@ -1,4 +1,5 @@
 pub use draft::*;
+pub use header::*;
 pub use history::*;
 pub use history_label_added::*;
 pub use history_label_removed::*;
@@ -47,6 +48,7 @@ pub use settings_update_pop_response::*;
 pub use settings_update_vacation_response::*;
 pub use watch_response::*;
 mod draft;
+mod header;
 mod history;
 mod history_label_added;
 mod history_label_removed;

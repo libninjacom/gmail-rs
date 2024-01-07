@@ -4,7 +4,7 @@ use serde::{Serialize, Deserialize};
 pub struct SettingsForwardingAddressesListResponse {
     ///List of addresses that may be used for forwarding.
     #[serde(rename = "forwardingAddresses")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub forwarding_addresses: Option<Vec<serde_json::Value>>,
 }
 impl std::fmt::Display for SettingsForwardingAddressesListResponse {

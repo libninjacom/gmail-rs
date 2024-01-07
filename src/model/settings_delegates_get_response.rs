@@ -4,11 +4,11 @@ use serde::{Serialize, Deserialize};
 pub struct SettingsDelegatesGetResponse {
     ///The email address of the delegate.
     #[serde(rename = "delegateEmail")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub delegate_email: Option<String>,
     ///Indicates whether this address has been verified and can act as a delegate for the account. Read-only.
     #[serde(rename = "verificationStatus")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub verification_status: Option<String>,
 }
 impl std::fmt::Display for SettingsDelegatesGetResponse {

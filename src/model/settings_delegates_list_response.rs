@@ -3,7 +3,7 @@ use serde::{Serialize, Deserialize};
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct SettingsDelegatesListResponse {
     ///List of the user's delegates (with any verification status). If an account doesn't have delegates, this field doesn't appear.
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub delegates: Option<Vec<serde_json::Value>>,
 }
 impl std::fmt::Display for SettingsDelegatesListResponse {

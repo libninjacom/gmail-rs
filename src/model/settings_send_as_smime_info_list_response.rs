@@ -3,7 +3,7 @@ use serde::{Serialize, Deserialize};
 pub struct SettingsSendAsSmimeInfoListResponse {
     ///List of SmimeInfo.
     #[serde(rename = "smimeInfo")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub smime_info: Option<Vec<serde_json::Value>>,
 }
 impl std::fmt::Display for SettingsSendAsSmimeInfoListResponse {

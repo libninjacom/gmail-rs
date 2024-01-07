@@ -1,12 +1,10 @@
 use serde::{Serialize, Deserialize};
-use super::Message;
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
-pub struct HistoryMessageDeleted {
-    ///An email message.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub message: Option<Message>,
+pub struct Header {
+    pub name: String,
+    pub value: String,
 }
-impl std::fmt::Display for HistoryMessageDeleted {
+impl std::fmt::Display for Header {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
         write!(f, "{}", serde_json::to_string(self).unwrap())
     }

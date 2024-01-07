@@ -4,7 +4,7 @@ use serde::{Serialize, Deserialize};
 pub struct SettingsSendAsListResponse {
     ///List of send-as aliases.
     #[serde(rename = "sendAs")]
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub send_as: Option<Vec<serde_json::Value>>,
 }
 impl std::fmt::Display for SettingsSendAsListResponse {

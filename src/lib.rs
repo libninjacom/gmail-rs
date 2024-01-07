@@ -7,6 +7,7 @@ pub mod model;
 pub mod request;
 pub use httpclient::{Error, Result, InMemoryResponseExt};
 use std::sync::{Arc, OnceLock};
+use std::borrow::Cow;
 use crate::model::*;
 static SHARED_HTTPCLIENT: OnceLock<httpclient::Client> = OnceLock::new();
 pub fn default_http_client() -> httpclient::Client {
@@ -24,14 +25,14 @@ pub fn default_http_client() -> httpclient::Client {
 pub fn init_http_client(init: httpclient::Client) {
     let _ = SHARED_HTTPCLIENT.set(init);
 }
-fn shared_http_client() -> &'static httpclient::Client {
-    SHARED_HTTPCLIENT.get_or_init(default_http_client)
+fn shared_http_client() -> Cow<'static, httpclient::Client> {
+    Cow::Borrowed(SHARED_HTTPCLIENT.get_or_init(default_http_client))
 }
 static SHARED_OAUTH2FLOW: OnceLock<httpclient_oauth2::OAuth2Flow> = OnceLock::new();
 pub fn init_oauth2_flow(init: httpclient_oauth2::OAuth2Flow) {
     let _ = SHARED_OAUTH2FLOW.set(init);
 }
-fn shared_oauth2_flow() -> &'static httpclient_oauth2::OAuth2Flow {
+pub fn shared_oauth2_flow() -> &'static httpclient_oauth2::OAuth2Flow {
     SHARED_OAUTH2FLOW
         .get_or_init(|| httpclient_oauth2::OAuth2Flow {
             client_id: std::env::var("GMAIL_CLIENT_ID")
@@ -51,7 +52,7 @@ pub struct FluentRequest<'a, T> {
     pub params: T,
 }
 pub struct GmailClient {
-    client: &'static httpclient::Client,
+    client: Cow<'static, httpclient::Client>,
     authentication: GmailAuth,
 }
 impl GmailClient {
@@ -64,6 +65,12 @@ impl GmailClient {
     pub fn with_auth(authentication: GmailAuth) -> Self {
         Self {
             client: shared_http_client(),
+            authentication,
+        }
+    }
+    pub fn new_with(client: httpclient::Client, authentication: GmailAuth) -> Self {
+        Self {
+            client: Cow::Owned(client),
             authentication,
         }
     }
@@ -1097,16 +1104,15 @@ pub enum GmailAuth {
     OAuth2 { middleware: Arc<httpclient_oauth2::OAuth2> },
 }
 impl GmailAuth {
-    pub fn oauth2(access: String, refresh: String) -> Self {
-        let mw = shared_oauth2_flow().bearer_middleware(access, refresh);
-        Self::OAuth2 {
-            middleware: Arc::new(mw),
-        }
-    }
-
     pub fn from_env() -> Self {
         let access = std::env::var("GMAIL_ACCESS_TOKEN").unwrap();
         let refresh = std::env::var("GMAIL_REFRESH_TOKEN").unwrap();
+        let mw = shared_oauth2_flow().bearer_middleware(access, refresh);
+        Self::OAuth2 {
+            middleware: std::sync::Arc::new(mw),
+        }
+    }
+    pub fn oauth2(access: String, refresh: String) -> Self {
         let mw = shared_oauth2_flow().bearer_middleware(access, refresh);
         Self::OAuth2 {
             middleware: Arc::new(mw),

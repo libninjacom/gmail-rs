@@ -3,7 +3,7 @@ use super::Message;
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct HistoryMessageAdded {
     ///An email message.
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub message: Option<Message>,
 }
 impl std::fmt::Display for HistoryMessageAdded {

@@ -5724,6 +5724,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Thread'
+      required:
+      - resultSizeEstimate
+      - threads
     Message:
       description: An email message.
       type: object
@@ -5760,6 +5763,15 @@ components:
         threadId:
           description: 'The ID of the thread the message belongs to. To add a message or draft to a thread, the following criteria must be met: 1. The requested `threadId` must be specified on the `Message` or `Draft.Message` you supply with your request. 2. The `References` and `In-Reply-To` headers must be set in compliance with the [RFC 2822](https://tools.ietf.org/html/rfc2822) standard. 3. The `Subject` headers must match. '
           type: string
+      required:
+      - historyId
+      - id
+      - internalDate
+      - labelIds
+      - payload
+      - sizeEstimate
+      - snippet
+      - threadId
     MessagePart:
       description: A single MIME message part.
       type: object
@@ -5783,17 +5795,9 @@ components:
           description: The filename of the attachment. Only present if this message part represents an attachment.
           type: string
         headers:
-          description: List of headers on this message part. For the top-level message part, representing the entire message payload, it will contain the standard RFC 2822 email headers such as `To`, `From`, and `Subject`.
           type: array
           items:
-            type: object
-            properties:
-              name:
-                description: The name of the header before the `:` separator. For example, `To`.
-                type: string
-              value:
-                description: The value of the header after the `:` separator. For example, `someuser@example.com`.
-                type: string
+            $ref: '#/components/schemas/Header'
         mimeType:
           description: The MIME type of the message part.
           type: string
@@ -5805,6 +5809,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MessagePart'
+      required:
+      - body
+      - filename
+      - headers
+      - mimeType
+      - partId
+      - parts
     MessagePartBody:
       description: The body of a single MIME message part.
       type: object
@@ -6023,6 +6034,10 @@ components:
         snippet:
           description: A short part of the message text.
           type: string
+      required:
+      - historyId
+      - id
+      - messages
     VacationSettings:
       description: Vacation auto-reply settings for an account. These settings correspond to the "Vacation responder" feature in the web interface.
       type: object
@@ -6083,6 +6098,16 @@ components:
           description: The ID of the mailbox's current history record.
           type: string
           format: uint64
+    Header:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      required:
+      - name
+      - value
 security:
 - Oauth2c: []
 tags:
