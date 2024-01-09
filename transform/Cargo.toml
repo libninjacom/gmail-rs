@@ -5,4 +5,4 @@ edition = "2021"
 
 [dependencies]
 serde_yaml = "0.9.27"
-openapiv3-extended = "5"
+openapiv3-extended = "5.1"

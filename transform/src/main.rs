@@ -33,16 +33,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "MessagePart",
     ];
     for name in make_required {
-        let mut schema = spec.schemas.index_mut2(name);
+        let mut schema = spec.schemas[name].to_mut();
         let keys = schema.properties().keys().cloned().collect::<Vec<_>>();
         *schema.required_mut() = keys;
     }
-    let message = spec.schemas.index_mut2("Message");
+    let message = spec.schemas["Message"].to_mut();
     message.remove_required("raw");
-    let thread = spec.schemas.index_mut2("Thread");
+    let thread = spec.schemas["Thread"].to_mut();
     thread.remove_required("snippet");
 
-    let props = spec.schemas.index_mut2("MessagePart").properties_mut();
+    let props = spec.schemas["MessagePart"].to_mut().properties_mut();
     props.insert("headers", Schema::new_array(RefOr::schema_ref("Header")));
     spec.schemas.insert("Header", {
         let mut s = Schema::new_object();
@@ -54,7 +54,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         req.push("value".to_string());
         s
     });
-    *spec.schemas.index_mut2("ListThreadsResponse").required_mut() = vec![
+    *spec.schemas["ListThreadsResponse"].to_mut().required_mut() = vec![
         "resultSizeEstimate".to_string(),
         "threads".to_string(),
     ];
