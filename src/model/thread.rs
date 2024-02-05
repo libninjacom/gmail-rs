@@ -5,7 +5,7 @@ use super::Message;
 pub struct Thread {
     ///The ID of the last history record that modified this thread.
     #[serde(rename = "historyId")]
-    pub history_id: String,
+    pub history_id: Option<String>,
     ///The unique ID of the thread.
     pub id: String,
     ///The list of messages in the thread.
