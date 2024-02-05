@@ -1,5 +1,15 @@
 use serde::{Serialize, Deserialize};
 use super::MessagePart;
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct MessageCompact {
+    id: String,
+    #[serde(default, rename = "labelIds")]
+    label_ids: Vec<String>,
+    #[serde(rename = "threadId")]
+    thread_id: String,
+}
+
 ///An email message.
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Message {
@@ -29,6 +39,7 @@ pub struct Message {
     #[serde(rename = "threadId")]
     pub thread_id: String,
 }
+
 impl std::fmt::Display for Message {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
         write!(f, "{}", serde_json::to_string(self).unwrap())

@@ -1,11 +1,17 @@
 use serde::{Serialize, Deserialize};
-use super::Message;
+use super::{Message, MessageCompact};
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct ThreadCompact {
+    id: String,
+    messages: Vec<MessageCompact>,
+}
 ///A collection of messages representing a conversation.
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Thread {
     ///The ID of the last history record that modified this thread.
     #[serde(rename = "historyId")]
-    pub history_id: Option<String>,
+    pub history_id: String,
     ///The unique ID of the thread.
     pub id: String,
     ///The list of messages in the thread.

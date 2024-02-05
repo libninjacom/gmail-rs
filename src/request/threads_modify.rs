@@ -40,7 +40,7 @@ impl FluentRequest<'_, ThreadsModifyRequest> {
     }
 }
 impl<'a> ::std::future::IntoFuture for FluentRequest<'a, ThreadsModifyRequest> {
-    type Output = httpclient::InMemoryResult<Thread>;
+    type Output = httpclient::InMemoryResult<ThreadCompact>;
     type IntoFuture = ::futures::future::BoxFuture<'a, Self::Output>;
     fn into_future(self) -> Self::IntoFuture {
         Box::pin(async move {
