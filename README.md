@@ -25,8 +25,6 @@ See examples/ directory for usage.
 
 This example loads configuration from environment variables, specifically:
 
-
-
 # Installation
 
 Add this to your Cargo.toml:
@@ -35,7 +33,6 @@ Add this to your Cargo.toml:
 [dependencies]
 gmail = ".."
 ```
-
 
 # Documentation
 
@@ -52,4 +49,4 @@ You can see working examples of every API call in the `examples/` directory.
 
 Contributions are welcome!
 
-*Library created with [Libninja](https://www.libninja.com).*
+*Library created with [Libninja](https://github.com/kurtbuilds/libninja).*
