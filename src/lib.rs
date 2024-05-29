@@ -8,6 +8,7 @@ pub mod request;
 pub use httpclient::{Error, Result, InMemoryResponseExt};
 use std::sync::{Arc, OnceLock};
 use std::borrow::Cow;
+use httpclient_oauth2::RefreshData;
 use crate::model::*;
 static SHARED_HTTPCLIENT: OnceLock<httpclient::Client> = OnceLock::new();
 pub fn default_http_client() -> httpclient::Client {
@@ -1109,11 +1110,14 @@ impl GmailAuth {
         let refresh = std::env::var("GMAIL_REFRESH_TOKEN").unwrap();
         let mw = shared_oauth2_flow().bearer_middleware(access, refresh);
         Self::OAuth2 {
-            middleware: std::sync::Arc::new(mw),
+            middleware: Arc::new(mw),
         }
     }
-    pub fn oauth2(access: String, refresh: String) -> Self {
-        let mw = shared_oauth2_flow().bearer_middleware(access, refresh);
+    pub fn oauth2(access: String, refresh: String, callback: Option<Box<dyn Fn(RefreshData) + Send + Sync + 'static>>) -> Self {
+        let mut mw = shared_oauth2_flow().bearer_middleware(access, refresh);
+        if let Some(cb) = callback {
+            mw.callback(cb);
+        }
         Self::OAuth2 {
             middleware: Arc::new(mw),
         }
