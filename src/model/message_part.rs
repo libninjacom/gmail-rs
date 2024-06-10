@@ -25,7 +25,7 @@ impl MessagePart {
         if self.mime_type == mime_type {
             Some(self)
         } else if self.mime_type.starts_with("multipart/") {
-            self.parts.iter().find_map(|part| part.find(mime_type))
+            self.parts.iter().find_map(|part| part.find_mime(mime_type))
         } else {
             None
         }
