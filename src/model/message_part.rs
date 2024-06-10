@@ -1,11 +1,10 @@
 use serde::{Serialize, Deserialize};
-use super::Header;
+use super::{Header, MessagePartBody};
 ///A single MIME message part.
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MessagePart {
     ///The message part body for this part, which may be empty for container MIME message parts.
-    #[serde(default, skip_serializing_if = "serde_json::Value::is_null")]
-    pub body: serde_json::Value,
+    pub body: MessagePartBody,
     ///The filename of the attachment. Only present if this message part represents an attachment.
     pub filename: String,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -20,6 +19,19 @@ pub struct MessagePart {
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub parts: Vec<MessagePart>,
 }
+
+impl MessagePart {
+    pub fn find_mime(&self, mime_type: &str) -> Option<&MessagePart> {
+        if self.mime_type == mime_type {
+            Some(self)
+        } else if self.mime_type.starts_with("multipart/") {
+            self.parts.iter().find_map(|part| part.find(mime_type))
+        } else {
+            None
+        }
+    }
+}
+
 impl std::fmt::Display for MessagePart {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
         write!(f, "{}", serde_json::to_string(self).unwrap())

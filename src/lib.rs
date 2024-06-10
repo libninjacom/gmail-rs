@@ -5,10 +5,13 @@
 #![allow(unused)]
 pub mod model;
 pub mod request;
+mod batch;
+
 pub use httpclient::{Error, Result, InMemoryResponseExt};
 use std::sync::{Arc, OnceLock};
 use std::borrow::Cow;
 use httpclient_oauth2::RefreshData;
+use crate::batch::Batch;
 use crate::model::*;
 static SHARED_HTTPCLIENT: OnceLock<httpclient::Client> = OnceLock::new();
 pub fn default_http_client() -> httpclient::Client {
@@ -1098,6 +1101,12 @@ impl GmailClient {
                 topic_name: None,
                 user_id: user_id.to_owned(),
             },
+        }
+    }
+
+    pub fn batch(&self) -> Batch<'_> {
+        Batch {
+            client: self,
         }
     }
 }

@@ -11,7 +11,7 @@ pub struct MessageCompact {
 }
 
 ///An email message.
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Message {
     ///The ID of the last history record that modified this message.
     #[serde(rename = "historyId")]
