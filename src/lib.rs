@@ -10,6 +10,8 @@ mod batch;
 pub use httpclient::{Error, Result, InMemoryResponseExt};
 use std::sync::{Arc, OnceLock};
 use std::borrow::Cow;
+use httpclient::{InMemoryRequest, InMemoryResponse, ProtocolError};
+use httpclient::multipart::Form;
 use httpclient_oauth2::RefreshData;
 use crate::batch::Batch;
 use crate::model::*;
@@ -1104,10 +1106,17 @@ impl GmailClient {
         }
     }
 
-    pub fn batch(&self) -> Batch<'_> {
-        Batch {
-            client: self,
-        }
+    pub async fn batch(&self, form: Form<InMemoryRequest>) -> Result<Form<InMemoryResponse>> {
+        use serde::de::Error as SerdeError;
+        let r = self.client.post("/batch");
+        let r = self.authenticate(r);
+        let res = r.multipart(form).await?;
+        let Some(form) = Form::from_response(res) else {
+            // this shouldn't really be a json error
+            let err = serde_json::Error::custom("Failed to parse multipart");
+            return Err(Error::Protocol(ProtocolError::JsonError(err)));
+        };
+        Ok(form)
     }
 }
 pub enum GmailAuth {

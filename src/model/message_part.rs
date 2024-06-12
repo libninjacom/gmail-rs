@@ -30,6 +30,16 @@ impl MessagePart {
             None
         }
     }
+
+    pub fn header(&self, name: &str) -> Option<&str> {
+        self.headers.iter().find_map(|header| {
+            if header.name == name {
+                Some(header.value.as_str())
+            } else {
+                None
+            }
+        })
+    }
 }
 
 impl std::fmt::Display for MessagePart {
