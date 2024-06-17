@@ -1131,8 +1131,8 @@ impl GmailAuth {
             middleware: Arc::new(mw),
         }
     }
-    pub fn oauth2(access: String, refresh: String, callback: Option<Box<dyn Fn(RefreshData) + Send + Sync + 'static>>) -> Self {
-        let mut mw = shared_oauth2_flow().bearer_middleware(access, refresh);
+    pub fn oauth2(access: impl Into<String>, refresh: impl Into<String>, callback: Option<Box<dyn Fn(RefreshData) + Send + Sync + 'static>>) -> Self {
+        let mut mw = shared_oauth2_flow().bearer_middleware(access.into(), refresh.into());
         if let Some(cb) = callback {
             mw.callback(cb);
         }
