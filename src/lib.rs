@@ -17,7 +17,7 @@ use crate::batch::Batch;
 use crate::model::*;
 static SHARED_HTTPCLIENT: OnceLock<httpclient::Client> = OnceLock::new();
 pub fn default_http_client() -> httpclient::Client {
-    httpclient::Client::new().base_url("https://gmail.googleapis.com/")
+    httpclient::Client::new().base_url("https://gmail.googleapis.com")
 }
 /// Use this method if you want to add custom middleware to the httpclient.
 /// It must be called before any requests are made, otherwise it will have no effect.
@@ -29,7 +29,7 @@ pub fn default_http_client() -> httpclient::Client {
 /// );
 /// ```
 pub fn init_http_client(init: httpclient::Client) {
-    let _ = SHARED_HTTPCLIENT.set(init);
+    SHARED_HTTPCLIENT.set(init).expect("Failed to manually init httpclient");
 }
 fn shared_http_client() -> Cow<'static, httpclient::Client> {
     Cow::Borrowed(SHARED_HTTPCLIENT.get_or_init(default_http_client))
