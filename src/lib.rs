@@ -180,6 +180,7 @@ impl GmailClient {
     pub fn history_list(
         &self,
         user_id: &str,
+        start_history_id: &str,
     ) -> FluentRequest<'_, request::HistoryListRequest> {
         FluentRequest {
             client: self,
@@ -188,7 +189,7 @@ impl GmailClient {
                 label_id: None,
                 max_results: None,
                 page_token: None,
-                start_history_id: None,
+                start_history_id: start_history_id.to_owned(),
                 user_id: user_id.to_owned(),
             },
         }

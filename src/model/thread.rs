@@ -1,10 +1,14 @@
 use serde::{Serialize, Deserialize};
-use super::{Message, MessageCompact};
+use super::{Message, CompactMessage};
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
-pub struct ThreadCompact {
-    id: String,
-    messages: Vec<MessageCompact>,
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct CompactThread {
+    #[serde(rename = "historyId")]
+    pub history_id: String,
+    pub id: String,
+    #[serde(default)]
+    pub snippet: String,
 }
 ///A collection of messages representing a conversation.
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]

@@ -2,7 +2,7 @@ use serde::{Serialize, Deserialize};
 use super::MessagePart;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
-pub struct MessageCompact {
+pub struct CompactMessage {
     id: String,
     #[serde(default, rename = "labelIds")]
     label_ids: Vec<String>,

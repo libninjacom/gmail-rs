@@ -1,9 +1,10 @@
 use serde_json::json;
-use crate::model::*;
 use crate::FluentRequest;
 use serde::{Serialize, Deserialize};
 use httpclient::InMemoryResponseExt;
 use crate::GmailClient;
+use crate::model::CompactMessage;
+
 /**You should use this struct via [`GmailClient::threads_modify`].
 
 On request success, this will return a [`Thread`].*/
@@ -39,8 +40,15 @@ impl FluentRequest<'_, ThreadsModifyRequest> {
         self
     }
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct CompactThread {
+    pub id: String,
+    pub messages: Vec<CompactMessage>,
+}
+
 impl<'a> ::std::future::IntoFuture for FluentRequest<'a, ThreadsModifyRequest> {
-    type Output = httpclient::InMemoryResult<ThreadCompact>;
+    type Output = httpclient::InMemoryResult<CompactThread>;
     type IntoFuture = ::futures::future::BoxFuture<'a, Self::Output>;
     fn into_future(self) -> Self::IntoFuture {
         Box::pin(async move {

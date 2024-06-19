@@ -3,12 +3,11 @@ use super::History;
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct ListHistoryResponse {
     ///List of history records. Any `messages` contained in the response will typically only have `id` and `threadId` fields populated.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub history: Option<Vec<History>>,
+    #[serde(default)]
+    pub history: Vec<History>,
     ///The ID of the mailbox's current history record.
     #[serde(rename = "historyId")]
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub history_id: Option<String>,
+    pub history_id: String,
     ///Page token to retrieve the next page of results in the list.
     #[serde(rename = "nextPageToken")]
     #[serde(default, skip_serializing_if = "Option::is_none")]

@@ -13,7 +13,7 @@ pub struct HistoryListRequest {
     pub label_id: Option<String>,
     pub max_results: Option<i64>,
     pub page_token: Option<String>,
-    pub start_history_id: Option<String>,
+    pub start_history_id: String,
     pub user_id: String,
 }
 impl HistoryListRequest {}
@@ -39,10 +39,6 @@ impl FluentRequest<'_, HistoryListRequest> {
     }
     pub fn page_token(mut self, page_token: &str) -> Self {
         self.params.page_token = Some(page_token.to_owned());
-        self
-    }
-    pub fn start_history_id(mut self, start_history_id: &str) -> Self {
-        self.params.start_history_id = Some(start_history_id.to_owned());
         self
     }
 }

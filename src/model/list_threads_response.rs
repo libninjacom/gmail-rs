@@ -1,5 +1,5 @@
 use serde::{Serialize, Deserialize};
-use super::Thread;
+use super::{CompactThread, Thread};
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct ListThreadsResponse {
     ///Page token to retrieve the next page of results in the list.
@@ -11,7 +11,7 @@ pub struct ListThreadsResponse {
     pub result_size_estimate: i64,
     ///List of threads. Note that each thread resource does not contain a list of `messages`. The list of `messages` for a given thread can be fetched using the threads.get method.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
-    pub threads: Vec<Thread>,
+    pub threads: Vec<CompactThread>,
 }
 impl std::fmt::Display for ListThreadsResponse {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
