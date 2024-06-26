@@ -40,6 +40,16 @@ impl MessagePart {
             }
         })
     }
+
+    pub fn find(&self, f: impl Fn(&MessagePart) -> bool + Copy + 'static) -> Option<&MessagePart> {
+        if f(self) {
+            Some(self)
+        } else if self.mime_type.starts_with("multipart/") {
+            self.parts.iter().find_map(|part| part.find(f))
+        } else {
+            None
+        }
+    }
 }
 
 impl std::fmt::Display for MessagePart {
