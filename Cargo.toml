@@ -13,6 +13,7 @@ repository = "https://github.com/libninjacom/gmail-rs"
 members = [".", "transform"]
 
 [dependencies]
+base64 = "0.22.1"
 futures = "0.3.25"
 httpclient = "0.23.0"
 httpclient_oauth2 = "0.4"
