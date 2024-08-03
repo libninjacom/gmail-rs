@@ -31,7 +31,8 @@ impl<'a> ::std::future::IntoFuture for FluentRequest<'a, MessagesSendRequest> {
             let mut r = self.client.client.post(url);
             // r = r.set_query(self.params);
 
-            r = r.body(httpclient::InMemoryBody::Text(json!({"raw": self.params.message}).to_string()));            
+            // r = r.body(httpclient::InMemoryBody::Json(json!({"message": {"raw": self.params.message}})));            
+            r = r.body(httpclient::InMemoryBody::Json(json!({"raw": self.params.message})));            
             // r = r.body(httpclient::InMemoryBody::Text(json!({"message": {"raw": self.params.message}}).to_string()));            
 
             // dbg!(&r);
