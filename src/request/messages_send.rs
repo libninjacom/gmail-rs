@@ -27,16 +27,8 @@ impl<'a> ::std::future::IntoFuture for FluentRequest<'a, MessagesSendRequest> {
             let url = &format!(
                 "/gmail/v1/users/{user_id}/messages/send", user_id = self.params.user_id
             );
-            dbg!(url);
-            let mut r = self.client.client.post(url);
-            // r = r.set_query(self.params);
-
-            // r = r.body(httpclient::InMemoryBody::Json(json!({"message": {"raw": self.params.message}})));            
-            r = r.body(httpclient::InMemoryBody::Json(json!({"raw": self.params.message})));            
-            // r = r.body(httpclient::InMemoryBody::Text(json!({"message": {"raw": self.params.message}}).to_string()));            
-
-            // dbg!(&r);
-            
+            let mut r = self.client.client.post(url)
+                .body(httpclient::InMemoryBody::Json(json!({"raw": self.params.message})));
             r = self.client.authenticate(r);
             let res = r.await?;
             res.json().map_err(Into::into)

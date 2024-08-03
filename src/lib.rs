@@ -381,13 +381,13 @@ impl GmailClient {
     pub fn messages_send(
         &self,
         user_id: &str,
-        message: &str,
+        message: String,
     ) -> FluentRequest<'_, request::MessagesSendRequest> {
         FluentRequest {
             client: self,
             params: request::MessagesSendRequest {
                 user_id: user_id.to_owned(),
-                message: message.to_owned(),
+                message,
             },
         }
     }
