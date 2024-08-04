@@ -10,7 +10,7 @@ mod batch;
 pub use httpclient::{Error, Result, InMemoryResponseExt};
 use std::sync::{Arc, OnceLock};
 use std::borrow::Cow;
-use httpclient::{InMemoryRequest, InMemoryResponse, ProtocolError};
+use httpclient::{InMemoryBody, InMemoryRequest, InMemoryResponse, ProtocolError};
 use httpclient::multipart::Form;
 use httpclient_oauth2::RefreshData;
 use crate::batch::Batch;
@@ -381,7 +381,7 @@ impl GmailClient {
     pub fn messages_send(
         &self,
         user_id: &str,
-        message: String,
+        message: InMemoryBody,
     ) -> FluentRequest<'_, request::MessagesSendRequest> {
         FluentRequest {
             client: self,

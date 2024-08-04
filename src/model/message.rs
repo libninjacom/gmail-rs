@@ -14,7 +14,7 @@ pub struct CompactMessage {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Message {
     ///The ID of the last history record that modified this message.
-    #[serde(rename = "historyId")]
+    #[serde(default, rename = "historyId")]
     pub history_id: String,
     ///The immutable ID of the message.
     pub id: String,
