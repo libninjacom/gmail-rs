@@ -3,11 +3,11 @@ use super::MessagePart;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct CompactMessage {
-    id: String,
+    pub id: String,
     #[serde(default, rename = "labelIds")]
-    label_ids: Vec<String>,
+    pub label_ids: Vec<String>,
     #[serde(rename = "threadId")]
-    thread_id: String,
+    pub thread_id: String,
 }
 
 ///An email message.
