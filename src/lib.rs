@@ -391,12 +391,14 @@ impl GmailClient {
         &self,
         user_id: &str,
         message: InMemoryBody,
+        thread_id: Option<String>,
     ) -> FluentRequest<'_, request::MessagesSendRequest> {
         FluentRequest {
             client: self,
             params: request::MessagesSendRequest {
                 user_id: user_id.to_owned(),
                 message,
+                thread_id,
             },
         }
     }
