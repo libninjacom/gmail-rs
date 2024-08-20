@@ -15,6 +15,15 @@ use httpclient::multipart::Form;
 use httpclient_oauth2::RefreshData;
 use crate::batch::Batch;
 use crate::model::*;
+
+pub mod header_ext {
+    use http::HeaderName;
+
+    pub const IN_REPLY_TO: HeaderName = HeaderName::from_static("in-reply-to");
+    pub const REFERENCES: HeaderName = HeaderName::from_static("references");
+    pub const THREAD_ID: HeaderName = HeaderName::from_static("threadid");
+}
+
 static SHARED_HTTPCLIENT: OnceLock<httpclient::Client> = OnceLock::new();
 pub fn default_http_client() -> httpclient::Client {
     httpclient::Client::new().base_url("https://gmail.googleapis.com")
