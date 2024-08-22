@@ -24,19 +24,17 @@ impl<'a> ::std::future::IntoFuture for FluentRequest<'a, MessagesSendRequest> {
     type IntoFuture = ::futures::future::BoxFuture<'a, Self::Output>;
     fn into_future(self) -> Self::IntoFuture {
         Box::pin(async move {
-            let url = &format!(
-                "/gmail/v1/users/{user_id}/messages/send",
-                user_id = self.params.user_id
-            );
-
-            let mut r = self.client.client.post(url);
-        
-            if let Some(thread_id) = &self.params.thread_id {
+            let mut r = if let Some(thread_id) = &self.params.thread_id {
+                let url = format!("/gmail/v1/users/{}/messages/send", self.params.user_id);
                 let encoded_message = URL_SAFE.encode(self.params.message.bytes().unwrap());
-                r = r.json(json!({"raw": encoded_message, "threadId": self.params.thread_id}));
+                self.client.client.post(&url)
+                    .json(json!({"raw": encoded_message, "threadId": thread_id}))
             } else {
-                r = r.content_type("message/rfc822").body(self.params.message);
-            }
+                let url = format!("/upload/gmail/v1/users/{}/messages/send", self.params.user_id);
+                self.client.client.post(&url)
+                    .content_type("message/rfc822")
+                    .body(self.params.message)
+            };
 
             r = self.client.authenticate(r);
             let res = r.await?;
