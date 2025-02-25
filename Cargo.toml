@@ -16,7 +16,7 @@ members = [".", "transform"]
 base64 = "0.22.1"
 futures = "0.3.25"
 http = "1.1.0"
-httpclient = { version = "0.25.0" , features = ["oauth2"]}
+httpclient = { version = "0.24.1" , features = ["oauth2"]}
 serde_json = "1.0.81"
 
 [dependencies.serde]
