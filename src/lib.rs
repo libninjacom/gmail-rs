@@ -12,7 +12,7 @@ use std::sync::{Arc, OnceLock};
 use std::borrow::Cow;
 use httpclient::{InMemoryBody, InMemoryRequest, InMemoryResponse, ProtocolError};
 use httpclient::multipart::Form;
-use httpclient_oauth2::RefreshData;
+use httpclient::oauth2::RefreshData;
 use crate::batch::Batch;
 use crate::model::*;
 
@@ -43,13 +43,13 @@ pub fn init_http_client(init: httpclient::Client) {
 fn shared_http_client() -> Cow<'static, httpclient::Client> {
     Cow::Borrowed(SHARED_HTTPCLIENT.get_or_init(default_http_client))
 }
-static SHARED_OAUTH2FLOW: OnceLock<httpclient_oauth2::OAuth2Flow> = OnceLock::new();
-pub fn init_oauth2_flow(init: httpclient_oauth2::OAuth2Flow) {
+static SHARED_OAUTH2FLOW: OnceLock<httpclient::oauth2::OAuth2Flow> = OnceLock::new();
+pub fn init_oauth2_flow(init: httpclient::oauth2::OAuth2Flow) {
     let _ = SHARED_OAUTH2FLOW.set(init);
 }
-pub fn shared_oauth2_flow() -> &'static httpclient_oauth2::OAuth2Flow {
+pub fn shared_oauth2_flow() -> &'static httpclient::oauth2::OAuth2Flow {
     SHARED_OAUTH2FLOW
-        .get_or_init(|| httpclient_oauth2::OAuth2Flow {
+        .get_or_init(|| httpclient::oauth2::OAuth2Flow {
             client_id: std::env::var("GMAIL_CLIENT_ID")
                 .expect("GMAIL_CLIENT_ID must be set"),
             client_secret: std::env::var("GMAIL_CLIENT_SECRET")
@@ -1134,7 +1134,7 @@ impl GmailClient {
     }
 }
 pub enum GmailAuth {
-    OAuth2 { middleware: Arc<httpclient_oauth2::OAuth2> },
+    OAuth2 { middleware: Arc<httpclient::oauth2::OAuth2> },
 }
 impl GmailAuth {
     pub fn from_env() -> Self {
